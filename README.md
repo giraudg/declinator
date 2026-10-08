@@ -20,10 +20,13 @@ Quand la photo d'origine est plus petite que le format demandé, la vignette aff
 
 ### Conserver le ratio
 
-Avec cette option, l'image n'est pas recadrée : elle est gardée en entier, centrée, et le vide autour est rempli. Deux fonds au choix, communs à tous les formats concernés :
+Avec cette option, l'image n'est pas recadrée : elle est gardée en entier, centrée, et le vide autour est rempli. Trois fonds au choix, communs à tous les formats concernés :
 
 - **Flou** : la bande de bord de l'image est prolongée dans le vide puis fortement floutée. Les couleurs se raccordent au bord de l'image sans dupliquer le sujet.
-- **Couleur** : une couleur unie. Par défaut, l'app propose la couleur moyenne des bords de la photo. On peut la changer avec le sélecteur de couleur, ou avec la **pipette** : cliquer sur « Pipette », puis sur la photo (une loupe montre le pixel visé et son code couleur). Échap pour annuler.
+- **Couleur** : une couleur unie.
+- **Dégradé** : le vide part des couleurs du bord de l'image (comme le flou) et glisse progressivement vers la couleur choisie. Le curseur « Longueur du dégradé » règle où la couleur pure est atteinte : à 60 %, elle l'est aux six dixièmes du vide ; à 100 %, seulement au bord du visuel.
+
+Pour Couleur et Dégradé, l'app propose par défaut la couleur moyenne des bords de la photo. On peut la changer avec le sélecteur de couleur, ou avec la **pipette** : cliquer sur « Pipette », puis sur la photo (une loupe montre le pixel visé et son code couleur). Échap pour annuler.
 
 L'option se règle format par format (interrupteur sous chaque vignette) ou pour tous les formats d'un coup (« Tous les formats : Recadrer / Conserver le ratio »). Le point de focus et le cadrage manuel ne s'appliquent qu'aux formats recadrés.
 
@@ -70,7 +73,7 @@ Pour tester sans serveur : double-cliquer sur `index.html`, l'app fonctionne aus
 
 Tout le traitement se fait dans le navigateur de la personne qui utilise l'outil. **Aucune photo n'est envoyée sur un serveur ni conservée** : fermer l'onglet efface tout. Les fichiers exportés ne contiennent pas les métadonnées de la photo d'origine (appareil, GPS…).
 
-Seuls quelques réglages sont mémorisés dans le navigateur, pour le confort : JPG ou PNG, la qualité JPG, les formats décochés et le type de fond (flou ou couleur).
+Seuls quelques réglages sont mémorisés dans le navigateur, pour le confort : JPG ou PNG, la qualité JPG, les formats décochés, le type de fond (flou, couleur ou dégradé) et la longueur du dégradé.
 
 L'app ne fait aucun appel externe (pas de Google Fonts, pas de CDN, pas de statistiques).
 

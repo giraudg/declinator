@@ -394,6 +394,8 @@ button, input, output { font: inherit; color: inherit; }
 }
 .fit-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
 .fit-label { min-width: 150px; font-size: 13.5px; color: var(--ink-2); }
+.fit-row input[type="range"] { width: 170px; accent-color: var(--gel); }
+.fit-out { min-width: 4.5ch; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
 .fit-note { margin: 2px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--ink-3); max-width: 62ch; }
 .seg-btn {
   padding: 5px 12px;
@@ -429,6 +431,7 @@ button, input, output { font: inherit; color: inherit; }
 .btn-quiet:disabled { color: var(--ink-3); background: transparent; }
 
 .tile-fit {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -438,7 +441,7 @@ button, input, output { font: inherit; color: inherit; }
   cursor: pointer;
   user-select: none;
 }
-.tile-fit input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.tile-fit input { position: absolute; left: 0; top: 0; width: 1px; height: 1px; margin: 0; opacity: 0; }
 .switch {
   position: relative;
   flex: none;
@@ -556,6 +559,10 @@ button, input, output { font: inherit; color: inherit; }
 }
 .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
 .toast[data-kind="error"] { background: #7A2318; }
+
+@media (min-width: 981px) {
+  html, body { overflow: hidden; }
+}
 
 /* ---------- Petits écrans ---------- */
 @media (max-width: 980px) {

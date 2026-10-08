@@ -46,7 +46,7 @@
     selected: new Set(FORMATS.map((f) => f.id)),
     mode: 'focus', adjustId: null, hoverId: null,   // mode : 'focus' | 'adjust' | 'pick'
     fit: new Set(),                                  // formats en « Conserver le ratio »
-    fill: { type: 'blur', color: '#1d1e2c' },        // fond de remplissage : 'blur' | 'color'
+    fill: { type: 'blur', color: '#1d1e2c', length: 0.6 },  // fond : 'blur' | 'color' | 'gradient' (bords → couleur)
     imgVersion: 0, avgColor: '#808080',
     format: 'jpeg', quality: 90,
     busy: false, loading: false
@@ -71,6 +71,7 @@
     tbPick: $('#tb-pick'), btnPickCancel: $('#btn-pick-cancel'),
     loupe: $('#loupe'), loupeCanvas: $('#loupe-canvas'), loupeHex: $('#loupe-hex'), loupeChip: $('#loupe-chip'),
     allCrop: $('#all-crop'), allFit: $('#all-fit'), fillColor: $('#fill-color'), fillHex: $('#fill-hex'),
+    colorRow: $('#color-row'), gradientRow: $('#gradient-row'), fillLength: $('#fill-length'), fillLengthOut: $('#fill-length-out'),
     btnPipette: $('#btn-pipette')
   };
 
@@ -148,6 +149,7 @@
     toastTimer = setTimeout(() => ui.toast.classList.remove('is-on'), kind === 'error' ? 7000 : 3800);
   }
 
+  const hexToRgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
   const toHex = (r, g, b) => '#' + [r, g, b].map((v) => clamp(Math.round(v), 0, 255).toString(16).padStart(2, '0')).join('');
 
   // Flou « boîte » répété 3 fois (proche d'un flou gaussien), sur des pixels RGBA.
@@ -301,15 +303,30 @@
     const fade = Math.max(2, (vertical ? Math.max(dy, bottom) : Math.max(dx, right)) * 0.55);
     const nd = near.data;
     const fd = far.data;
+    // Mode « Dégradé » : on glisse ensuite progressivement vers la couleur choisie,
+    // atteinte pure à (longueur x vide) du bord de l'image.
+    const toColor = state.fill.type === 'gradient';
+    const col = toColor ? hexToRgb(state.fill.color) : null;
     for (let j = 0; j < sh; j++) {
       for (let i = 0; i < sw; i++) {
-        const dist = vertical
-          ? (j < dy ? dy - j : (j > dy + dh ? j - dy - dh : 0))
-          : (i < dx ? dx - i : (i > dx + dw ? i - dx - dw : 0));
+        let dist, pad;
+        if (vertical) {
+          dist = j < dy ? dy - j : (j > dy + dh ? j - dy - dh : 0);
+          pad = j < dy + dh / 2 ? dy : bottom;
+        } else {
+          dist = i < dx ? dx - i : (i > dx + dw ? i - dx - dw : 0);
+          pad = i < dx + dw / 2 ? dx : right;
+        }
         const t = clamp(1 - dist / fade, 0, 1);
         const wgt = t * t * (3 - 2 * t);   // transition douce
         const o = (j * sw + i) * 4;
         for (let c = 0; c < 4; c++) fd[o + c] = fd[o + c] + (nd[o + c] - fd[o + c]) * wgt;
+        if (toColor && dist > 0) {
+          const u = clamp(dist / Math.max(1, pad * state.fill.length), 0, 1);
+          const wc = u * u * (3 - 2 * u);
+          for (let c = 0; c < 3; c++) fd[o + c] = fd[o + c] + (col[c] - fd[o + c]) * wc;
+          fd[o + 3] = 255;
+        }
       }
     }
     x.putImageData(far, 0, 0);
@@ -352,10 +369,15 @@
     return hex(edge, state.avgColor);
   }
 
-  function setFill(type, color) {
+  // Choisir une couleur passe en mode Couleur, sauf si l'on est déjà en Dégradé.
+  const colorMode = () => (state.fill.type === 'blur' ? 'color' : null);
+
+  function setFill(type, color, length) {
     if (type) state.fill.type = type;
     if (color) state.fill.color = color.toLowerCase();
+    if (length) state.fill.length = clamp(length, 0.2, 1);
     prefs.set('fill', state.fill.type);
+    prefs.set('fillLength', state.fill.length);
     renderFitPanel();
     render();
   }
@@ -374,6 +396,11 @@
     for (const r of document.querySelectorAll('input[name="fill"]')) r.checked = r.value === state.fill.type;
     ui.fillColor.value = state.fill.color;
     ui.fillHex.textContent = state.fill.color.toUpperCase();
+    ui.colorRow.hidden = state.fill.type === 'blur';
+    ui.gradientRow.hidden = state.fill.type !== 'gradient';
+    const pct = Math.round(state.fill.length * 100);
+    ui.fillLength.value = pct;
+    ui.fillLengthOut.textContent = `${pct}${NNBSP}%`;
     ui.btnPipette.disabled = !state.img;
     ui.btnPipette.setAttribute('aria-pressed', String(state.mode === 'pick'));
     for (const f of FORMATS) tiles[f.id] && (tiles[f.id].fitInput.checked = isFit(f));
@@ -452,7 +479,7 @@
     const ctx = cv.getContext('2d');
     if (isFit(f)) {
       // L'aperçu « ratio conservé » ne dépend pas du point de focus : on ne le recalcule que si besoin.
-      const key = [state.imgVersion, state.fill.type, state.fill.color, w, h].join('|');
+      const key = [state.imgVersion, state.fill.type, state.fill.color, state.fill.length, w, h].join('|');
       if (t.fitKey === key) return;
       t.fitKey = key;
       const r = containRect(w, h, false);
@@ -960,7 +987,7 @@
     if (state.mode === 'pick') {
       const hex = sampleAt(p);
       exitPick();
-      setFill('color', hex);
+      setFill(colorMode(), hex);
       toast(`Couleur de fond prélevée : ${hex.toUpperCase()}`);
       return;
     }
@@ -1053,7 +1080,8 @@
   for (const r of document.querySelectorAll('input[name="fill"]')) {
     r.addEventListener('change', () => { if (r.checked) setFill(r.value); });
   }
-  ui.fillColor.addEventListener('input', () => setFill('color', ui.fillColor.value));
+  ui.fillColor.addEventListener('input', () => setFill(colorMode(), ui.fillColor.value));
+  ui.fillLength.addEventListener('input', () => setFill(null, null, ui.fillLength.value / 100));
   ui.btnPipette.addEventListener('click', () => (state.mode === 'pick' ? exitPick() : enterPick()));
   ui.btnPickCancel.addEventListener('click', exitPick);
 
@@ -1136,7 +1164,10 @@
     if (radio) radio.checked = true;
     ui.qualityField.classList.toggle('is-disabled', state.format === 'png');
     ui.quality.disabled = state.format === 'png';
-    state.fill.type = prefs.get('fill', 'blur') === 'color' ? 'color' : 'blur';
+    const ft = prefs.get('fill', 'blur');
+    state.fill.type = ['blur', 'color', 'gradient'].includes(ft) ? ft : 'blur';
+    const fl = Number(prefs.get('fillLength', 0.6));
+    state.fill.length = clamp(Number.isFinite(fl) ? fl : 0.6, 0.2, 1);
 
     if (!FORMATS.length) {
       ui.sheetIntro.textContent = 'Aucun format défini. Ajoutez des formats dans le fichier js/formats.js.';

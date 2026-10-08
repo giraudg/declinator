@@ -113,7 +113,11 @@
             <span class="seg" role="radiogroup" aria-labelledby="fill-label">
               <label><input type="radio" name="fill" value="blur" checked><span>Flou</span></label>
               <label><input type="radio" name="fill" value="color"><span>Couleur</span></label>
+              <label><input type="radio" name="fill" value="gradient"><span>Dégradé</span></label>
             </span>
+          </div>
+          <div class="fit-row" id="color-row">
+            <span class="fit-label">Couleur</span>
             <label class="swatch" title="Choisir une couleur">
               <input type="color" id="fill-color" value="#1d1e2c" aria-label="Couleur de fond">
               <span class="swatch-hex" id="fill-hex">#1D1E2C</span>
@@ -123,7 +127,12 @@
               Pipette
             </button>
           </div>
-          <p class="fit-note">Avec « Conserver le ratio », l'image entière est gardée et le vide est rempli par un flou tiré de ses bords ou par une couleur.</p>
+          <div class="fit-row" id="gradient-row" hidden>
+            <label class="fit-label" for="fill-length">Longueur du dégradé</label>
+            <input type="range" id="fill-length" min="20" max="100" step="5" value="60">
+            <output class="fit-out" id="fill-length-out" for="fill-length">60&#8239;%</output>
+          </div>
+          <p class="fit-note">Avec « Conserver le ratio », l'image entière est gardée et le vide est rempli&#8239;: flou tiré de ses bords, couleur unie, ou dégradé qui part des bords de l'image et glisse vers la couleur choisie.</p>
         </div>
 
         <div id="groups"></div>
