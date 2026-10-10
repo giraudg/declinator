@@ -76,7 +76,7 @@
     count: $('#count'), sideIntro: $('#side-intro'), groups: $('#groups'),
     allCrop: $('#all-crop'), allFit: $('#all-fit'),
     fillSeg: $('#fill-seg'), fillCount: $('#fill-count'), fillNote: $('#fill-note'),
-    colorRow: $('#color-row'), fillColor: $('#fill-color'), fillHex: $('#fill-hex'), btnPipette: $('#btn-pipette'),
+    fillExtra: $('#fill-extra'), colorRow: $('#color-row'), fillColor: $('#fill-color'), fillHex: $('#fill-hex'), btnPipette: $('#btn-pipette'),
     gradientRow: $('#gradient-row'), fillLength: $('#fill-length'), fillLengthOut: $('#fill-length-out'),
     basename: $('#basename'), quality: $('#quality'), qualityOut: $('#quality-out'), qualityField: $('#quality-field'),
     btnZip: $('#btn-zip'), zipLabel: $('#zip-label'), exportHint: $('#export-hint'),
@@ -436,6 +436,7 @@
     ui.fillCount.textContent = active ? `· ${plural(nFit, 'format')} concerné${nFit > 1 ? 's' : ''}` : '';
     ui.colorRow.hidden = !active || state.fill.type === 'blur';
     ui.gradientRow.hidden = !active || state.fill.type !== 'gradient';
+    ui.fillExtra.hidden = ui.colorRow.hidden && ui.gradientRow.hidden;
     ui.fillColor.value = state.fill.color;
     ui.fillHex.textContent = state.fill.color.toUpperCase();
     const pct = Math.round(state.fill.length * 100);
