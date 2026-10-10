@@ -30,6 +30,10 @@ Pour Couleur et Dégradé, l'app propose par défaut la couleur moyenne des bord
 
 L'option se règle format par format (interrupteur sous chaque vignette) ou pour tous les formats d'un coup (« Tous les formats : Recadrer / Conserver le ratio »). Le point de focus et le cadrage manuel ne s'appliquent qu'aux formats recadrés.
 
+## Nouvelle interface en test
+
+Une refonte de l'interface aux couleurs du design system 6MIC est en cours de validation dans le dossier `refonte/`, en ligne à l'adresse `/refonte/` (par exemple `https://declinaisons.6mic-aix.fr/refonte/`). Elle utilise le même moteur de calcul. Tant qu'elle n'est pas validée, la version à la racine reste celle utilisée par l'équipe. Une fois validée, le contenu de `refonte/` remplacera celui de la racine.
+
 ## Formats
 
 | Rubrique | Format | Taille (px) |
