@@ -7,156 +7,212 @@
   <title>Declinator</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
   <div class="app" id="app" data-state="empty" data-mode="focus">
 
-    <header class="topbar">
+    <header class="shell">
       <div class="brand">
-        <svg class="brand-mark" viewBox="-16 -16 32 32" width="26" height="26" aria-hidden="true">
-          <circle r="10.5" fill="none" stroke="currentColor" stroke-width="2.4"/>
-          <path d="M0-16v4M0 12v4M-16 0h4M12 0h4" stroke="currentColor" stroke-width="2.4"/>
-          <circle r="3.6" style="fill: var(--gel)"/>
-        </svg>
+        <svg class="brand-mark" width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><circle cx="16" cy="16" r="9"/><path d="M16 2v5M16 25v5M2 16h5M25 16h5"/><circle cx="16" cy="16" r="3" class="brand-dot" stroke="none"/></svg>
         <h1 class="brand-name">Declinator</h1>
-        <span class="brand-sub">Les visuels du 6MIC, déclinés pour le site et les billetteries</span>
+        <p class="brand-sub">Les visuels du 6MIC, déclinés pour le site et les billetteries</p>
       </div>
-      <button class="btn btn-quiet" id="btn-new" type="button" hidden>Changer de photo</button>
+      <p class="local">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span>Traitement local&#8239;: rien n’est envoyé</span>
+      </p>
     </header>
 
-    <main class="workspace">
-      <section class="stage" id="stage" aria-label="Photo source">
+    <div class="workspace">
+      <main class="stage" id="stage">
 
-        <div class="dropzone" id="dropzone">
-          <div class="dropzone-inner">
-            <svg class="dropzone-mark" viewBox="-32 -32 64 64" width="64" height="64" aria-hidden="true">
-              <circle r="21" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M0-31v7M0 24v7M-31 0h7M24 0h7" stroke="currentColor" stroke-width="2"/>
-              <circle r="5" style="fill: var(--gel-light)"/>
-            </svg>
-            <p class="dropzone-title">Déposez une photo ici</p>
-            <p class="dropzone-text">ou <button class="link-btn" id="btn-pick" type="button">choisissez un fichier</button>, ou collez une image copiée.</p>
-            <p class="dropzone-note">JPG, PNG, WebP ou HEIC. La photo reste sur votre ordinateur&#8239;: rien n'est envoyé ni conservé.</p>
-          </div>
-        </div>
-
-        <div class="viewer" id="viewer" hidden>
-          <div class="toolbar" id="toolbar">
-            <div class="tb-focus" id="tb-focus">
-              <p class="tb-hint"><strong>Point de focus.</strong> Cliquez sur le sujet de la photo&#8239;: toutes les déclinaisons se recentrent dessus. Survolez un format pour voir son cadre.</p>
-              <button class="btn btn-dark" id="btn-center" type="button">Remettre au centre</button>
+        <!-- Aucune photo -->
+        <section class="empty moire" id="dropzone" aria-label="Ajouter une photo">
+          <div class="drop">
+            <div class="drop-icon">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 15v5h16v-5"/></svg>
             </div>
-            <div class="tb-adjust" id="tb-adjust" hidden>
-              <p class="tb-title"><span class="tb-tag">Cadrage manuel</span> <span id="adj-name"></span> <span class="tb-dims" id="adj-dims"></span></p>
-              <div class="tb-controls">
-                <label class="tb-zoom">Zoom
-                  <input type="range" id="zoom" min="100" max="500" step="1" value="100">
-                  <output id="zoom-out" for="zoom">100&#8239;%</output>
-                </label>
-                <button class="btn btn-dark" id="btn-auto" type="button">Revenir au cadrage auto</button>
-                <button class="btn btn-light" id="btn-done" type="button">Terminé</button>
+            <div class="drop-title">
+              <h2 class="display">Déposez une photo</h2>
+              <span class="marker" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <p class="drop-text">Glissez une image dans ce cadre, ou collez-la depuis le presse-papiers.</p>
+            <div class="drop-actions">
+              <button class="cta" id="btn-pick" type="button">Choisir un fichier
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M14 7l5 5-5 5"/></svg>
+              </button>
+              <span class="paste">ou <kbd>⌘</kbd><kbd>V</kbd> pour coller</span>
+            </div>
+            <div class="chips" aria-label="Formats acceptés"><span class="chip">JPG</span><span class="chip">PNG</span><span class="chip">WebP</span><span class="chip">HEIC</span></div>
+            <p class="drop-note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              La photo reste sur votre ordinateur&#8239;: rien n’est envoyé ni conservé.
+            </p>
+          </div>
+        </section>
+
+        <!-- Photo chargée -->
+        <section class="viewer" id="viewer" hidden>
+          <div class="filebar">
+            <div class="file">
+              <canvas class="file-thumb" id="file-thumb" width="72" height="72" aria-hidden="true"></canvas>
+              <div class="file-text">
+                <p class="file-name" id="meta-name"></p>
+                <p class="file-dims" id="meta-dims"></p>
               </div>
             </div>
-            <div class="tb-pick" id="tb-pick" hidden>
-              <p class="tb-hint"><strong>Pipette.</strong> Cliquez sur la photo pour prélever la couleur de fond. Échap pour annuler.</p>
-              <button class="btn btn-light" id="btn-pick-cancel" type="button">Annuler</button>
+            <div class="file-actions">
+              <button class="btn" id="btn-new" type="button">Remplacer la photo
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg>
+              </button>
+              <button class="icon-btn" id="btn-remove" type="button" aria-label="Retirer la photo">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+              </button>
             </div>
           </div>
 
-          <div class="canvas-area" id="canvas-area">
-            <div class="photo" id="photo" tabindex="0" role="application" aria-roledescription="zone de cadrage"
-                 aria-label="Photo. Cliquez ou utilisez les flèches du clavier pour placer le point de focus.">
-              <img id="photo-img" alt="" draggable="false">
-              <div class="spot" id="spot" aria-hidden="true"></div>
-              <div class="frame frame-ghost" id="frame-ghost" hidden><span class="frame-label" id="ghost-label"></span></div>
-              <div class="frame frame-edit" id="frame-edit" hidden></div>
-              <div class="focus" id="focus-marker" aria-hidden="true">
-                <svg viewBox="-32 -32 64 64" width="64" height="64">
-                  <g fill="none" stroke="rgba(10,10,20,.5)" stroke-width="4"><circle r="21"/><path d="M0-31v7M0 24v7M-31 0h7M24 0h7"/></g>
-                  <g fill="none" stroke="#fff" stroke-width="2"><circle r="21"/><path d="M0-31v7M0 24v7M-31 0h7M24 0h7"/></g>
-                  <circle r="5.5" style="fill: var(--gel)" stroke="#fff" stroke-width="2"/>
-                </svg>
+          <div class="view">
+            <div class="view-head">
+              <p class="vh-title"><span class="vh-name" id="vh-name">Point de focus</span> <span class="vh-dims" id="vh-dims"></span></p>
+              <div class="vh-tools">
+                <span class="tag" id="vh-tag">Tous les formats</span>
+                <button class="btn" id="btn-center" type="button">Remettre au centre</button>
+                <button class="btn" id="btn-auto" type="button" hidden>Recadrage automatique</button>
+                <button class="btn" id="btn-all" type="button" hidden>Tous les formats</button>
+                <button class="btn btn-light" id="btn-pick-cancel" type="button" hidden>Annuler</button>
               </div>
             </div>
-            <div class="loupe" id="loupe" hidden aria-hidden="true">
-              <canvas id="loupe-canvas"></canvas>
-              <span class="loupe-hex"><span class="loupe-chip" id="loupe-chip"></span><span id="loupe-hex"></span></span>
+
+            <div class="canvas-area" id="canvas-area">
+              <div class="photo" id="photo" tabindex="0" role="application" aria-roledescription="zone de cadrage"
+                   aria-label="Photo. Cliquez ou utilisez les flèches du clavier pour placer le point de focus.">
+                <img id="photo-img" alt="" draggable="false">
+                <div class="spot" id="spot" aria-hidden="true"></div>
+                <div class="frame frame-ghost" id="frame-ghost" hidden><span class="frame-label" id="ghost-label"></span></div>
+                <div class="frame frame-edit" id="frame-edit" hidden>
+                  <span class="third third-v" style="left: 33.333%"></span>
+                  <span class="third third-v" style="left: 66.667%"></span>
+                  <span class="third third-h" style="top: 33.333%"></span>
+                  <span class="third third-h" style="top: 66.667%"></span>
+                  <span class="handle handle-nw"></span><span class="handle handle-ne"></span>
+                  <span class="handle handle-sw"></span><span class="handle handle-se"></span>
+                  <svg class="frame-target" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><circle cx="16" cy="16" r="7"/><path d="M16 3v6M16 23v6M3 16h6M23 16h6"/></svg>
+                </div>
+                <div class="focus" id="focus-marker" aria-hidden="true">
+                  <svg viewBox="-32 -32 64 64" width="64" height="64">
+                    <g fill="none" stroke="rgba(0,0,0,.55)" stroke-width="4"><circle r="21"/><path d="M0-31v7M0 24v7M-31 0h7M24 0h7"/></g>
+                    <g fill="none" stroke="#fff" stroke-width="2"><circle r="21"/><path d="M0-31v7M0 24v7M-31 0h7M24 0h7"/></g>
+                    <circle r="5.5" class="focus-dot" stroke="#fff" stroke-width="2"/>
+                  </svg>
+                </div>
+              </div>
+              <canvas class="fit-preview" id="fit-preview" hidden aria-label="Aperçu du format en ratio conservé"></canvas>
+              <div class="loupe" id="loupe" hidden aria-hidden="true">
+                <canvas id="loupe-canvas"></canvas>
+                <span class="loupe-hex"><span class="loupe-chip" id="loupe-chip"></span><span id="loupe-hex"></span></span>
+              </div>
+            </div>
+
+            <div class="view-foot">
+              <p class="hint" id="hint"></p>
+              <div class="nav">
+                <div class="icon-group">
+                  <button class="icon-btn" id="btn-prev" type="button" aria-label="Format précédent">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+                  </button>
+                  <button class="icon-btn" id="btn-next" type="button" aria-label="Format suivant">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+                  </button>
+                </div>
+                <span class="nav-count" id="nav-count" aria-live="polite"></span>
+              </div>
             </div>
           </div>
-
-          <div class="viewer-meta">
-            <span class="meta-hint" id="meta-hint"></span>
-            <span class="meta-file"><span id="meta-name"></span> <span class="meta-dims" id="meta-dims"></span></span>
-          </div>
-        </div>
+        </section>
 
         <div class="drop-overlay" aria-hidden="true"><span>Déposez pour remplacer la photo</span></div>
         <div class="stage-status" id="stage-status" hidden></div>
         <input type="file" id="file-input" accept="image/*,.heic,.heif" hidden>
-      </section>
+      </main>
 
-      <section class="sheet" aria-labelledby="sheet-title">
-        <h2 class="sheet-title" id="sheet-title">Déclinaisons</h2>
-        <p class="sheet-intro" id="sheet-intro">Chaque photo est déclinée dans ces formats. Décochez ceux dont vous n'avez pas besoin.</p>
-
-        <div class="fit-panel">
-          <div class="fit-row">
-            <span class="fit-label" id="all-label">Tous les formats</span>
-            <span class="seg" role="group" aria-labelledby="all-label">
-              <button type="button" class="seg-btn" id="all-crop" aria-pressed="true">Recadrer</button>
-              <button type="button" class="seg-btn" id="all-fit" aria-pressed="false">Conserver le ratio</button>
-            </span>
+      <aside class="side" aria-labelledby="side-title">
+        <div class="side-head">
+          <div class="side-title">
+            <h2 class="display-s" id="side-title">Déclinaisons</h2>
+            <span class="count" id="count"></span>
           </div>
-          <div class="fit-row">
-            <span class="fit-label" id="fill-label">Fond de remplissage</span>
-            <span class="seg" role="radiogroup" aria-labelledby="fill-label">
+          <span class="marker marker-s" aria-hidden="true"><i></i><i></i><i></i></span>
+          <p class="side-intro" id="side-intro">Chaque photo est déclinée dans les formats cochés.</p>
+        </div>
+
+        <section class="settings" aria-label="Réglages communs">
+          <div class="set">
+            <p class="label" id="all-label">Adaptation des formats</p>
+            <div class="seg" role="group" aria-labelledby="all-label">
+              <button type="button" id="all-crop" aria-pressed="true">Recadrer</button>
+              <button type="button" id="all-fit" aria-pressed="false">Conserver le ratio</button>
+            </div>
+          </div>
+          <div class="set" id="fill-set">
+            <p class="label"><span id="fill-label">Fond de remplissage</span> <span class="label-muted" id="fill-count"></span></p>
+            <div class="seg" role="radiogroup" aria-labelledby="fill-label" id="fill-seg">
               <label><input type="radio" name="fill" value="blur" checked><span>Flou</span></label>
               <label><input type="radio" name="fill" value="color"><span>Couleur</span></label>
               <label><input type="radio" name="fill" value="gradient"><span>Dégradé</span></label>
-            </span>
+            </div>
           </div>
-          <div class="fit-row" id="color-row">
-            <span class="fit-label">Couleur</span>
-            <label class="swatch" title="Choisir une couleur">
-              <input type="color" id="fill-color" value="#1d1e2c" aria-label="Couleur de fond">
-              <span class="swatch-hex" id="fill-hex">#1D1E2C</span>
-            </label>
-            <button type="button" class="btn btn-quiet btn-sm" id="btn-pipette" disabled>
-              <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 4.1l1.6-1.6a1.9 1.9 0 0 1 2.7 2.7l-1.6 1.6"/><path d="M10.6 4.4l5 5"/><path d="M13.6 7.4l-7.9 7.9-2.6 1.1 1.1-2.6 7.9-7.9"/></svg>
-              Pipette
-            </button>
+          <div class="set-wide fill-extra" id="fill-extra">
+            <div class="set-row" id="color-row">
+              <label class="swatch" title="Choisir une couleur">
+                <input type="color" id="fill-color" value="#301739" aria-label="Couleur de fond">
+                <span class="swatch-hex" id="fill-hex">#301739</span>
+              </label>
+              <button class="btn btn-sm" id="btn-pipette" type="button" disabled>
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M13.2 4.1l1.6-1.6a1.9 1.9 0 0 1 2.7 2.7l-1.6 1.6"/><path d="M10.6 4.4l5 5"/><path d="M13.6 7.4l-7.9 7.9-2.6 1.1 1.1-2.6 7.9-7.9"/></svg>
+                Pipette
+              </button>
+            </div>
+            <div class="set-row" id="gradient-row">
+              <label class="label" for="fill-length">Longueur du dégradé</label>
+              <input type="range" class="range" id="fill-length" min="20" max="100" step="5" value="60">
+              <output class="out" id="fill-length-out" for="fill-length">60&#8239;%</output>
+            </div>
           </div>
-          <div class="fit-row" id="gradient-row" hidden>
-            <label class="fit-label" for="fill-length">Longueur du dégradé</label>
-            <input type="range" id="fill-length" min="20" max="100" step="5" value="60">
-            <output class="fit-out" id="fill-length-out" for="fill-length">60&#8239;%</output>
-          </div>
-          <p class="fit-note">Avec « Conserver le ratio », l'image entière est gardée et le vide est rempli&#8239;: flou tiré de ses bords, couleur unie, ou dégradé qui part des bords de l'image et glisse vers la couleur choisie.</p>
-        </div>
+          <p class="set-note set-wide" id="fill-note"></p>
+        </section>
 
         <div id="groups"></div>
-      </section>
-    </main>
+      </aside>
+    </div>
 
     <footer class="exportbar">
-      <label class="field">
-        <span>Nom des fichiers</span>
-        <input type="text" id="basename" placeholder="visuel" spellcheck="false" autocomplete="off">
-      </label>
-      <fieldset class="field seg-field">
-        <legend>Format</legend>
-        <span class="seg">
-          <label><input type="radio" name="fmt" value="jpeg" checked><span>JPG</span></label>
-          <label><input type="radio" name="fmt" value="png"><span>PNG</span></label>
-        </span>
-      </fieldset>
-      <label class="field" id="quality-field">
-        <span>Qualité</span>
-        <input type="range" id="quality" min="60" max="100" step="1" value="90">
-        <output id="quality-out" for="quality">90</output>
-      </label>
-      <button class="btn btn-primary" id="btn-zip" type="button" disabled>Télécharger les formats (.zip)</button>
+      <div class="fields">
+        <div class="field">
+          <label class="label" for="basename">Nom des fichiers</label>
+          <input class="input" type="text" id="basename" placeholder="visuel" spellcheck="false" autocomplete="off">
+        </div>
+        <div class="field">
+          <span class="label" id="fmt-label">Format</span>
+          <div class="seg" role="radiogroup" aria-labelledby="fmt-label">
+            <label><input type="radio" name="fmt" value="jpeg" checked><span>JPG</span></label>
+            <label><input type="radio" name="fmt" value="png"><span>PNG</span></label>
+          </div>
+        </div>
+        <div class="field" id="quality-field">
+          <label class="label" for="quality">Qualité</label>
+          <input type="range" class="range" id="quality" min="60" max="100" step="1" value="90">
+          <output class="out out-l" id="quality-out" for="quality">90</output>
+        </div>
+      </div>
+      <div class="export">
+        <span class="export-hint" id="export-hint" hidden></span>
+        <button class="cta" id="btn-zip" type="button" disabled>
+          <span id="zip-label">Télécharger 9 formats (.zip)</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><path d="M12 4v13M7 12l5 5 5-5M4 20h16"/></svg>
+        </button>
+      </div>
     </footer>
   </div>
 
