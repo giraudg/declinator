@@ -97,6 +97,7 @@ js/app.js         logique : focus, cadrage, aperçus, export
 css/app.css       mise en forme (design system 6MIC)
 vendor/           bibliothèques (JSZip, pica, heic2any)
 fonts/            polices Archivo et Anton
+img/              logo 6MIC (blanc, pour la barre noire ; aperçu refonte/ seulement pour l'instant)
 refonte/          aperçu de la prochaine interface (en test, à valider)
 favicon.svg, robots.txt
 .nojekyll         indique à GitHub Pages de servir les fichiers tels quels

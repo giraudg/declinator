@@ -270,9 +270,8 @@ kbd {
   margin-inline: auto;
   padding: 10px 32px;
 }
-.brand { display: flex; align-items: baseline; gap: 10px; }
-.brand-6 { font-family: var(--f-cond); font-size: 30px; line-height: 1; letter-spacing: .01em; }
-.brand-t { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.brand { display: flex; align-items: center; }
+.brand img { display: block; width: auto; height: 34px; }
 .proto {
   display: inline-flex;
   align-items: center;
