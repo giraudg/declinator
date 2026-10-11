@@ -97,7 +97,7 @@ js/app.js         logique : focus, cadrage, aperçus, export
 css/app.css       mise en forme (design system 6MIC)
 vendor/           bibliothèques (JSZip, pica, heic2any)
 fonts/            polices Archivo et Anton
-img/              logo 6MIC (version blanche, pour la barre noire)
+img/              logo 6MIC (version blanche, pour la barre noire) et motif « focus » de l'accueil
 refonte/          redirige l'ancienne adresse de test vers l'app
 favicon.svg, robots.txt
 .nojekyll         indique à GitHub Pages de servir les fichiers tels quels
@@ -111,6 +111,6 @@ favicon.svg, robots.txt
 - [Archivo](https://github.com/Omnibus-Type/Archivo) d'Omnibus-Type : police de texte (SIL Open Font License, voir `fonts/OFL-Archivo.txt`)
 - [Anton](https://github.com/googlefonts/AntonFont) de Vernon Adams : police condensée des titres et dimensions (SIL Open Font License, voir `fonts/OFL-Anton.txt`)
 
-Le logo 6MIC vient du design system 6MIC (image PNG en trois résolutions) : le remplacer par le fichier vectoriel officiel s'il est disponible.
+Le logo 6MIC (image PNG en trois résolutions) et le motif « focus » du fond d'accueil (dégradé rose → violet, comme les raccourcis du futur site) viennent du design system 6MIC : les remplacer par les fichiers vectoriels officiels s'ils sont disponibles.
 
 Les polices du site 6MIC (Owners, Zuume Cut) sont déclarées en premier : si elles sont installées sur l'ordinateur, ou chargées un jour par un kit Adobe Fonts couvrant ce sous-domaine, l'app les utilise à la place d'Archivo et d'Anton.

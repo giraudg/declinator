@@ -45,7 +45,7 @@
   --shell: #000; --on-shell: #fff; --shell-line: rgba(255, 255, 255, .3);
   --surface: #fff; --mist: #f1f1f1; --mist-deep: #b7b7b7; --texture: #fff;
   --ink: #000; --muted: #404040; --rule: #000; --rule-soft: #bababa;
-  --violet: #8e63ff; --hl: #6a42e6; --on-hl: #fff;
+  --violet: #8e63ff; --rose: #e744a8; --hl: #6a42e6; --on-hl: #fff;
   --danger: #b91c1c; --on-danger: #fff;
   --focus: #6a42e6;
   --well: #000;
@@ -328,11 +328,21 @@ kbd {
 /* ---------- Panneau photo ---------- */
 .stage { position: relative; display: flex; flex-direction: column; }
 
-/* Aucune photo : fond moiré + carte d'accueil */
-.moire {
-  background-color: var(--mist);
-  background-image: repeating-conic-gradient(from 180deg at 50% -30%, var(--texture) 0deg .3deg, transparent .3deg 1.5deg), linear-gradient(180deg, var(--mist-deep), var(--mist) 480px);
-  background-repeat: no-repeat;
+/* Aucune photo : motif « focus » du design system 6MIC (comme les raccourcis du site) :
+   dégradé rose → violet, faisceaux de traits du logo multipliés par-dessus. Identique en thème sombre. */
+.motif {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg, var(--rose), var(--violet));
+}
+.motif::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url('../img/motif-focus.webp') 50% 50% / cover no-repeat;
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 .empty { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; padding: 32px; overflow: auto; }
 .drop { width: 100%; max-width: 600px; border: 1px solid var(--rule); background: var(--surface); }
@@ -344,7 +354,7 @@ kbd {
 .drop-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 12px 24px; background: var(--mist); font-size: 12px; color: var(--muted); }
 .chips { display: inline-flex; flex-wrap: wrap; gap: 6px; color: var(--ink); }
 .drop-note { display: inline-flex; align-items: center; gap: 6px; }
-.app.is-dragging[data-state="empty"] .empty { outline: 2px dashed var(--hl); outline-offset: -14px; }
+.app.is-dragging[data-state="empty"] .empty { outline: 2px dashed #fff; outline-offset: -14px; }
 .app.is-dragging[data-state="empty"] .drop { box-shadow: inset 0 0 0 3px var(--hl); }
 
 /* Photo chargée */
