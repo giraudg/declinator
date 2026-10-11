@@ -2,19 +2,19 @@
 
 Outil du service com du 6MIC : on importe une photo, on clique sur le sujet (le point de focus), et l'app produit toutes les déclinaisons nécessaires pour le site et les billetteries, recadrées autour de ce point. Un clic télécharge le tout dans un .zip.
 
-L'interface reprend le design system 6MIC (noir et blanc, angles vifs, filets fins, violet).
+L'interface suit le design system 6MIC, sur le modèle de l'app Navettes : barre noire avec le logo 6MIC, page gris clair, panneaux blancs à filet noir, angles vifs, violet pour la sélection. Elle passe en thème sombre quand l'ordinateur est réglé en mode sombre.
 
 ## Utilisation
 
 1. Glisser une photo dans la fenêtre (ou « Choisir un fichier », ou coller une image copiée avec ⌘V / Ctrl+V).
 2. Cliquer sur le sujet pour placer le **point de focus** : toutes les déclinaisons recadrées se recentrent dessus. Survoler un format dans la liste de droite montre son cadre sur la photo.
-3. Si besoin, cliquer sur un format pour l'afficher et **ajuster son cadrage** à la main : glisser le cadre pour le déplacer, tirer un coin pour zoomer (ou molette, ou touches + et −), double-clic pour revenir au cadrage automatique. Les flèches ‹ › passent d'un format à l'autre ; Échap ou « Tous les formats » ramène au point de focus.
+3. Si besoin, cliquer sur un format pour l'afficher et **ajuster son cadrage** à la main : glisser le cadre pour le déplacer, tirer un coin pour zoomer (ou molette, ou touches + et −), double-clic pour revenir au cadrage automatique. Les flèches ‹ › passent d'un format à l'autre ; Échap ou le lien « ← Tous les formats » ramène au point de focus.
 4. Pour un visuel qui ne doit pas être recadré (un bandeau avec du texte dans un format vertical, par exemple), activer l'interrupteur **Ratio** du format, ou « Conserver le ratio » pour tous les formats d'un coup (voir plus bas).
-5. Cliquer sur « Télécharger 9 formats (.zip) ». La case à cocher de chaque format l'inclut ou non dans le .zip (« Tout cocher / Tout décocher » par rubrique) ; l'icône de téléchargement d'une ligne exporte ce seul format.
+5. Cliquer sur « Télécharger 9 formats (.zip) », en haut à droite. La case à cocher de chaque format l'inclut ou non dans le .zip (« Tout cocher / Tout décocher » par rubrique) ; l'icône de téléchargement d'une ligne exporte ce seul format.
 
 Pour changer de photo : « Remplacer la photo », ou la croix pour revenir à l'accueil.
 
-Les fichiers sont nommés `nom_format_LARGEURxHAUTEUR.jpg`, par exemple `concert-ete_billetterie-6mic_1000x1000.jpg`. Le nom de base est repris du fichier d'origine et se modifie en bas de l'écran.
+Les fichiers sont nommés `nom_format_LARGEURxHAUTEUR.jpg`, par exemple `concert-ete_billetterie-6mic_1000x1000.jpg`. Le nom de base est repris du fichier d'origine et se modifie en haut à droite, à côté du bouton de téléchargement (avec le choix JPG / PNG et la qualité).
 
 ### Règle de cadrage
 
@@ -97,8 +97,8 @@ js/app.js         logique : focus, cadrage, aperçus, export
 css/app.css       mise en forme (design system 6MIC)
 vendor/           bibliothèques (JSZip, pica, heic2any)
 fonts/            polices Archivo et Anton
-img/              logo 6MIC (blanc, pour la barre noire ; aperçu refonte/ seulement pour l'instant)
-refonte/          aperçu de la prochaine interface (en test, à valider)
+img/              logo 6MIC (version blanche, pour la barre noire)
+refonte/          redirige l'ancienne adresse de test vers l'app
 favicon.svg, robots.txt
 .nojekyll         indique à GitHub Pages de servir les fichiers tels quels
 ```
@@ -110,5 +110,7 @@ favicon.svg, robots.txt
 - [heic2any](https://github.com/alexcorvi/heic2any) 0.0.4 : lecture des photos HEIC (MIT)
 - [Archivo](https://github.com/Omnibus-Type/Archivo) d'Omnibus-Type : police de texte (SIL Open Font License, voir `fonts/OFL-Archivo.txt`)
 - [Anton](https://github.com/googlefonts/AntonFont) de Vernon Adams : police condensée des titres et dimensions (SIL Open Font License, voir `fonts/OFL-Anton.txt`)
+
+Le logo 6MIC vient du design system 6MIC (image PNG en trois résolutions) : le remplacer par le fichier vectoriel officiel s'il est disponible.
 
 Les polices du site 6MIC (Owners, Zuume Cut) sont déclarées en premier : si elles sont installées sur l'ordinateur, ou chargées un jour par un kit Adobe Fonts couvrant ce sous-domaine, l'app les utilise à la place d'Archivo et d'Anton.

@@ -66,7 +66,7 @@
     app: $('#app'), dropzone: $('#dropzone'), viewer: $('#viewer'), fileInput: $('#file-input'), status: $('#stage-status'),
     btnPick: $('#btn-pick'), btnNew: $('#btn-new'), btnRemove: $('#btn-remove'),
     fileThumb: $('#file-thumb'), metaName: $('#meta-name'), metaDims: $('#meta-dims'),
-    vhName: $('#vh-name'), vhDims: $('#vh-dims'), vhTag: $('#vh-tag'),
+    vhName: $('#vh-name'), vhDims: $('#vh-dims'), vhTag: $('#vh-tag'), vhKicker: $('#vh-kicker'),
     btnCenter: $('#btn-center'), btnAuto: $('#btn-auto'), btnAll: $('#btn-all'), btnPickCancel: $('#btn-pick-cancel'),
     area: $('#canvas-area'), photo: $('#photo'), photoImg: $('#photo-img'), spot: $('#spot'),
     ghost: $('#frame-ghost'), ghostLabel: $('#ghost-label'), edit: $('#frame-edit'), focus: $('#focus-marker'),
@@ -703,7 +703,8 @@
     ui.btnAll.hidden = mode !== 'format';
     ui.btnPickCancel.hidden = mode !== 'pick';
     ui.vhTag.classList.remove('tag-manual');
-    ui.vhTag.hidden = mode === 'focus';
+    ui.vhTag.hidden = mode !== 'format';
+    ui.vhKicker.textContent = mode === 'focus' ? 'Tous les formats' : mode === 'pick' ? 'Fond de remplissage' : (f ? f.group : '');
     if (mode === 'focus') {
       ui.vhName.textContent = 'Point de focus';
       ui.vhDims.textContent = '';
@@ -712,7 +713,6 @@
     } else if (mode === 'pick') {
       ui.vhName.textContent = 'Pipette';
       ui.vhDims.textContent = '';
-      ui.vhTag.textContent = 'Couleur de fond';
       ui.hint.textContent = 'Cliquez sur la photo pour prélever la couleur de fond. Échap pour annuler.';
       ui.photo.setAttribute('aria-label', 'Pipette : cliquez sur la photo pour prélever une couleur. Échap pour annuler.');
     } else if (f) {
