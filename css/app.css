@@ -544,7 +544,22 @@ html[data-input="mouse"] .photo:focus-visible { outline: none; }
 .groups { display: grid; gap: 12px; }
 .group { display: grid; gap: 8px; padding-top: 12px; border-top: 1px solid var(--rule); }
 .group-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.group-title { margin: 0; font-size: 18px; font-weight: 700; font-stretch: 112%; line-height: 1.1; }
+.group-title { margin: 0; min-width: 0; font-size: 18px; font-weight: 700; font-stretch: 112%; line-height: 1.1; }
+.group-fold {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 0 -2px;
+  padding: 2px 4px 2px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+.group-fold svg { flex: none; transition: transform .15s ease; }
+.group.is-collapsed .group-fold svg { transform: rotate(-90deg); }
+.group-fold:hover .group-name { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .group-count { margin-left: 4px; font-size: 13px; font-weight: 400; font-stretch: 100%; color: var(--muted); font-variant-numeric: tabular-nums; }
 .group-toggle { min-height: 30px; padding: 4px 9px; font-size: 13px; }
 .rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }

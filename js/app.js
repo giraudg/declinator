@@ -460,9 +460,11 @@
 
   function buildList() {
     ui.groups.textContent = '';
-    for (const g of GROUPS) {
+    const saved = prefs.get('collapsed', []);
+    const folded = new Set(Array.isArray(saved) ? saved : []);
+    GROUPS.forEach((g, gi) => {
       const list = FORMATS.filter((f) => f.group === g.name);
-      if (!list.length) continue;
+      if (!list.length) return;
       const count = el('span', { class: 'group-count' });
       const toggle = el('button', { class: 'btn group-toggle', type: 'button' });
       toggle.addEventListener('click', () => {
@@ -470,13 +472,33 @@
         for (const f of list) { if (all) state.selected.delete(f.id); else state.selected.add(f.id); }
         saveSelection();
       });
-      const box = el('div', { class: 'rows', role: 'list' }, list.map(buildRow));
-      ui.groups.append(el('section', { class: 'group' }, [
-        el('div', { class: 'group-head' }, [el('h3', { class: 'group-title' }, [g.name + ' ', count]), toggle]),
+      const boxId = `rubrique-${gi}`;
+      const box = el('div', { class: 'rows', role: 'list', id: boxId }, list.map(buildRow));
+      // Rubrique repliable : un clic sur son titre masque ou affiche ses formats (mémorisé dans le navigateur)
+      const fold = el('button', { class: 'group-fold', type: 'button', 'aria-expanded': 'true', 'aria-controls': boxId, title: 'Replier ou déplier la rubrique' }, [
+        svgIcon(['M6 9l6 6 6-6'], 16),
+        el('span', { class: 'group-name' }, g.name),
+        count
+      ]);
+      const section = el('section', { class: 'group' }, [
+        el('div', { class: 'group-head' }, [el('h3', { class: 'group-title' }, fold), toggle]),
         box
-      ]));
-      groupEls.push({ list, count, toggle });
-    }
+      ]);
+      ui.groups.append(section);
+      const ge = { name: g.name, list, count, toggle, fold, box, section, collapsed: false };
+      fold.addEventListener('click', () => setCollapsed(ge, !ge.collapsed, true));
+      groupEls.push(ge);
+      setCollapsed(ge, folded.has(g.name), false);
+    });
+  }
+
+  function setCollapsed(ge, on, save) {
+    ge.collapsed = on;
+    ge.box.hidden = on;
+    ge.section.classList.toggle('is-collapsed', on);
+    ge.fold.setAttribute('aria-expanded', String(!on));
+    if (save) prefs.set('collapsed', groupEls.filter((x) => x.collapsed).map((x) => x.name));
+    if (!on) render();
   }
 
   function buildRow(f) {
@@ -740,6 +762,8 @@
   // ---------------------------------------------------------------------------
   function selectFormat(id) {
     if (!state.img || state.busy) return;
+    const ge = groupEls.find((g) => g.collapsed && g.list.some((f) => f.id === id));
+    if (ge) setCollapsed(ge, false, true);
     if (state.mode === 'pick') exitPick(true);
     state.mode = 'format';
     state.currentId = id;

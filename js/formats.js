@@ -27,5 +27,16 @@ window.DECLINATOR_FORMATS = [
       { id: 'shotgun-1', name: 'Shotgun 1', width: 1920, height: 1080 },
       { id: 'shotgun-2', name: 'Shotgun 2', width: 1080, height: 1440 }
     ]
+  },
+  {
+    name: 'TV',
+    formats: [
+      { id: 'tv-plein-ecran', name: 'Plein écran', width: 1920, height: 1080 },
+      { id: 'tv-line-up', name: 'Line-up', width: 820, height: 1080 },
+      { id: 'tv-serie', name: 'Série (universel)', width: 816, height: 470 },
+      { id: 'tv-serie-1-2-dates', name: 'Série 1 ou 2 dates', width: 816, height: 440 },
+      { id: 'tv-serie-3-dates', name: 'Série 3 dates', width: 528, height: 470 },
+      { id: 'tv-serie-4-dates', name: 'Série 4 dates', width: 384, height: 470 }
+    ]
   }
 ];

@@ -10,7 +10,9 @@ L'interface suit le design system 6MIC, sur le modèle de l'app Navettes : barre
 2. Cliquer sur le sujet pour placer le **point de focus** : toutes les déclinaisons recadrées se recentrent dessus. Survoler un format dans la liste de droite montre son cadre sur la photo.
 3. Si besoin, cliquer sur un format pour l'afficher et **ajuster son cadrage** à la main : glisser le cadre pour le déplacer, tirer un coin pour zoomer (ou molette, ou touches + et −), double-clic pour revenir au cadrage automatique. Les flèches ‹ › passent d'un format à l'autre ; Échap ou le lien « ← Tous les formats » ramène au point de focus.
 4. Pour un visuel qui ne doit pas être recadré (un bandeau avec du texte dans un format vertical, par exemple), activer l'interrupteur **Ratio** du format, ou « Conserver le ratio » pour tous les formats d'un coup (voir plus bas).
-5. Cliquer sur « Télécharger 9 formats (.zip) », en haut à droite. La case à cocher de chaque format l'inclut ou non dans le .zip (« Tout cocher / Tout décocher » par rubrique) ; l'icône de téléchargement d'une ligne exporte ce seul format.
+5. Cliquer sur « Télécharger 15 formats (.zip) », en haut à droite. La case à cocher de chaque format l'inclut ou non dans le .zip (« Tout cocher / Tout décocher » par rubrique) ; l'icône de téléchargement d'une ligne exporte ce seul format.
+
+Les formats sont rangés par rubrique (Site 6MIC, Billetteries, TV). Cliquer sur le titre d'une rubrique la replie ou la déplie, pour raccourcir la liste ; une rubrique repliée reste exportée si ses formats sont cochés (le compteur à côté du titre l'indique).
 
 Pour changer de photo : « Remplacer la photo », ou la croix pour revenir à l'accueil.
 
@@ -47,6 +49,12 @@ L'option se règle format par format (interrupteur « Ratio » de chaque ligne) 
 | Billetteries | Ticketmaster | 1200 × 1900 |
 | Billetteries | Shotgun 1 | 1920 × 1080 |
 | Billetteries | Shotgun 2 | 1080 × 1440 |
+| TV | Plein écran | 1920 × 1080 |
+| TV | Line-up | 820 × 1080 |
+| TV | Série (universel) | 816 × 470 |
+| TV | Série 1 ou 2 dates | 816 × 440 |
+| TV | Série 3 dates | 528 × 470 |
+| TV | Série 4 dates | 384 × 470 |
 
 Pour ajouter, retirer ou modifier un format, éditer **`js/formats.js`** (les instructions sont en tête du fichier) puis remettre ce fichier en ligne. Rien d'autre à toucher.
 
@@ -77,7 +85,7 @@ Pour tester sans serveur : double-cliquer sur `index.html`, l'app fonctionne aus
 
 Tout le traitement se fait dans le navigateur de la personne qui utilise l'outil. **Aucune photo n'est envoyée sur un serveur ni conservée** : fermer l'onglet efface tout. Les fichiers exportés ne contiennent pas les métadonnées de la photo d'origine (appareil, GPS…).
 
-Seuls quelques réglages sont mémorisés dans le navigateur, pour le confort : JPG ou PNG, la qualité JPG, les formats décochés, le type de fond (flou, couleur ou dégradé) et la longueur du dégradé.
+Seuls quelques réglages sont mémorisés dans le navigateur, pour le confort : JPG ou PNG, la qualité JPG, les formats décochés, les rubriques repliées, le type de fond (flou, couleur ou dégradé) et la longueur du dégradé.
 
 L'app ne fait aucun appel externe (pas de Google Fonts, pas de CDN, pas de statistiques) : les polices sont hébergées avec l'app.
 
